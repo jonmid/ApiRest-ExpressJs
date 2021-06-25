@@ -4,10 +4,16 @@ const app = express();
 const { config } = require('./config/index');
 const moviesApi = require('./routes/movies');
 
+const { logErrors, errorHandler } = require('./utils/middleware/errorHandlers');
+
 // body parser
 app.use(express.json());
 
 moviesApi(app);
+
+// the middleware always goes after routes
+app.use(logErrors);
+app.use(errorHandler);
 
 // app.get('/', function (req, res) {
 //   res.send('hello world');
